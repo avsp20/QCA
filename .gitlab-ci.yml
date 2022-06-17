@@ -1,0 +1,12 @@
+deploy_production:
+  image: rrpnarola/docker_git_ftp
+  stage: deploy
+  environment:
+    name: production
+    url: https://qca.testready.com.au
+  only:
+    - master
+  script:
+    - echo "Hello, $GITLAB_USER_LOGIN!"
+    - git ftp init --user $FTP_USERNAME --passwd $FTP_PASSWORD ftp://$FTP_HOST
+    - git ftp push --remote-root /573924-bhupinder-singh/ -vv --syncroot /builds/git/sv.narola/573924-bhupinder-singh/ --user $FTP_USERNAME --passwd $FTP_PASSWORD $FTP_HOST
